@@ -1,0 +1,28 @@
+{
+  "name": "socialmedia-backend-platform",
+  "version": "1.0.0",
+  "description": "backend API for a social media platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pilot67/socialmedia-backend-platform.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pilot67/socialmedia-backend-platform/issues"
+  },
+  "homepage": "https://github.com/Pilot67/socialmedia-backend-platform#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
