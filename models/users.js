@@ -42,6 +42,10 @@ const userSchema = new Schema(
     id: false,
   }
 );
+// create a virtual property for the number of friends
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
+});
 
 // Create a new instance of our schema called User
 const User = model("User", userSchema);
