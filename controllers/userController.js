@@ -56,6 +56,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  
   // Friend routes
   // Add friend
   addFriend(req, res) {
@@ -67,15 +68,16 @@ module.exports = {
         $push: {
           friends: req.params.friendID,
         },
-      }
+      },
     )
-      .then((response) =>
-        !response
+      .then((result) =>
+        !result
           ? res.status(404).json({ message: "No user with that ID" })
-          : res.json(response)
+          : res.json(result)
       )
       .catch((err) => res.status(500).json(err));
   },
+  //Un-friend!
   deleteFriend(req, res) {
     User.findOneAndUpdate(
         {
@@ -87,10 +89,10 @@ module.exports = {
           },
         }
       )
-        .then((response) =>
-          !response
+        .then((result) =>
+          !result
             ? res.status(404).json({ message: "No user with that ID" })
-            : res.json(response)
+            : res.json(result)
         )
         .catch((err) => res.status(500).json(err));
   
