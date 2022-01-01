@@ -11,11 +11,11 @@ module.exports = {
   //get a single thought by Id
   getSingleThought(req, res) {
     Thoughts.findOne({ _id: req.params.thoughtId })
-     //  .populate('userId')
-      .then((user) =>
+      //  .populate('userId')
+      .then((result) =>
         !user
           ? res.status(404).json({ message: "No user with that ID" })
-          : res.json(user)
+          : res.json(result)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -51,8 +51,8 @@ module.exports = {
       },
       {
         $set: {
-            thoughtText: req.body.thoughtText,
-            createdAt: Date.now(),
+          thoughtText: req.body.thoughtText,
+          createdAt: Date.now(),
         },
       }
     )
@@ -63,7 +63,6 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-
 
   //delete thought and remove the id from the user
   deleteSingleThought(req, res) {
@@ -88,6 +87,38 @@ module.exports = {
           )
           .catch((err) => res.status(500).json(err));
       })
+      .catch((err) => res.status(500).json(err));
+  },
+  // Create a reaction
+  createReaction(req, res) {
+    Thoughts.findOneAndUpdate(
+      {
+        _id: req.params.thoughtId,
+      },
+      {
+        $push: {
+          reactions: req.body,
+        },
+      }
+    )
+      .then((response) =>
+        !response
+          ? res.status(404).json({ message: "No user with that ID" })
+          : res.json(response)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // Delete reaction by ID
+  deleteReaction(req, res) {
+    Thoughts.findOneAndUpdate(
+      { "reactions.reactionId": req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.thoughtId } } }
+    )
+      .then((response) =>
+        !response
+          ? res.status(404).json({ message: "No reaction with that ID" })
+          : res.json(response)
+      )
       .catch((err) => res.status(500).json(err));
   },
 };

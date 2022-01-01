@@ -1,9 +1,10 @@
-const { Schema, model } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 // Schema to create the reations model used as a sub-document
 const reactionsSchema = new Schema({
   reactionId: {
-    type: Schema.Types.ObjectID,
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
   },
   reactionBody: {
     type: String,
