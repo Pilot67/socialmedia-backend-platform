@@ -25,14 +25,8 @@ module.exports = {
     Thoughts.create(req.body)
       .then((result) => {
         User.findOneAndUpdate(
-          {
-            _id: result.userId,
-          },
-          {
-            $push: {
-              thoughts: result._id,
-            },
-          }
+          { _id: result.userId },
+          { $push: { thoughts: result._id } }
         )
           .then((result) =>
             !result
@@ -46,9 +40,7 @@ module.exports = {
   // Update a thought by ID
   updateSingleThought(req, res) {
     Thoughts.findOneAndUpdate(
-      {
-        _id: req.params.thoughtId,
-      },
+      { _id: req.params.thoughtId },
       {
         $set: {
           thoughtText: req.body.thoughtText,
@@ -71,14 +63,8 @@ module.exports = {
     })
       .then((result) => {
         User.findOneAndUpdate(
-          {
-            _id: result.userId,
-          },
-          {
-            $pull: {
-              thoughts: result._id,
-            },
-          }
+          { _id: result.userId },
+          { $pull: { thoughts: result._id } }
         )
           .then((result) =>
             !result
@@ -92,19 +78,13 @@ module.exports = {
   // Create a reaction
   createReaction(req, res) {
     Thoughts.findOneAndUpdate(
-      {
-        _id: req.params.thoughtId,
-      },
-      {
-        $push: {
-          reactions: req.body,
-        },
-      }
+      { _id: req.params.thoughtId },
+      { $push: { reactions: req.body } }
     )
-      .then((response) =>
-        !response
+      .then((result) =>
+        !result
           ? res.status(404).json({ message: "No user with that ID" })
-          : res.json(response)
+          : res.json(result)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -114,10 +94,10 @@ module.exports = {
       { "reactions.reactionId": req.params.thoughtId },
       { $pull: { reactions: { reactionId: req.params.thoughtId } } }
     )
-      .then((response) =>
-        !response
+      .then((result) =>
+        !result
           ? res.status(404).json({ message: "No reaction with that ID" })
-          : res.json(response)
+          : res.json(result)
       )
       .catch((err) => res.status(500).json(err));
   },
