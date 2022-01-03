@@ -1,28 +1,7 @@
 const { Schema, model } = require("mongoose");
 const reactionsSchema = require("./Reactions");
+const { format } = require('date-fns');
 
-// Schema to create the reations model used as a sub-document
-// const reactionsSchema = new Schema({
-//   reactionId: {
-//     type: Schema.Types.ObjectID,
-//     default: new ObjectID(),
-//   },
-//   reactionBody: {
-//     type: String,
-//     required: [true, "Reaction Body is required"],
-//     maxLength: 280,
-//   },
-//   username: {
-//     type: String,
-//     required: [true, "Username is required"],
-//   },
-//   createdAt: {
-//     type: Date,
-//     default: Date.now,
-//   },
-// });
-
-// Schema to create thoughts model
 const thoughtsSchema = new Schema(
   {
     thoughtText: {
@@ -34,10 +13,11 @@ const thoughtsSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: value => format(value, 'do MMM yyyy hh:mm b')
     },
     username: {
       type: String,
-      required:[true,"Username is required"],
+      required: [true, "Username is required"],
     },
     userId: {
       type: Schema.Types.ObjectID,
@@ -49,20 +29,17 @@ const thoughtsSchema = new Schema(
     //confimr our virtuals are JSON encoded
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
 
 // create a virtual property for the number of friends
-thoughtsSchema.virtual('reactionCount').get(function () {
-    return this.reactions.length;
-  });
+thoughtsSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
-//ToDo
-// ADD DATE FORMAT VIRTUAL HERE
-
-  
 // Create a new instance of our schema called User
 const Thoughts = model("Thoughts", thoughtsSchema);
 
