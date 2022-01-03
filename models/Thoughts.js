@@ -26,7 +26,7 @@ const thoughtsSchema = new Schema(
     reactions: [reactionsSchema],
   },
   {
-    //confimr our virtuals are JSON encoded
+    //confirm virtuals and getters are JSON encoded
     toJSON: {
       virtuals: true,
       getters: true,
