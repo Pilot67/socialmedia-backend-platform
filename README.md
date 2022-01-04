@@ -36,15 +36,28 @@ From the CLI enter 'npm install' to install all dependencies.
   
 ## Usage
 Start the app from the CLI using 'npm run start'.  
-Using Insomnia or your browser, you can create, read, update and delete entries in the database. The database will contain 2 collections, users and thoughts. Usere are populated with user information and friend Id's stored in an array. This is a sample of typical JSON data to create a user using the `POST` method:  
+Using Insomnia or your browser, you can create, read, update and delete (CRUD) entries in the database. The database will contain 2 collections, users and thoughts. Usere are populated with user information and friend Id's stored in an array. This is a sample of typical JSON data to create a user using the `POST` method:  
 `{ "username":"Nathan", "email": "nat@gmail.com" }`  
+  
 user routes are as follows:  
 `GET http://localhost:3001/api/user` Get all users  
 `GET http://localhost:3001/api/user/{user Id}` Display only 1 user by Id  
-`POST http://localhost:3001/api/user` Create a new user  
-`PUT http://localhost:3001/api/user/{user Id}` Update a user  
+`POST http://localhost:3001/api/user` Create a new user (JSON body required)    
+`PUT http://localhost:3001/api/user/{user Id}` Update a user (JSON body required)    
 `DELETE http://localhost:3001/api/user/{user Id}` Delete a user  
-
+  
+`POST http://localhost:3001/api/user/{user Id}/friends/{friend Id}` Add a friend  
+`DELETE http://localhost:3001/api/user/{user Id}/friends/{friend Id}` Remove a friend  
+  
+Thought routes are as follows:  
+`GET http://localhost:3001/api/thoughts` Get all thoughts  
+`GET http://localhost:3001/api/thoughts/{thought Id}` Get 1 thought  
+`POST http://localhost:3001/api/thoughts/` Create a new thought (JSON body required)  
+`PUT http://localhost:3001/api/thoughts/{thought Id}` Update a thought (JSON body required)  
+`DELETE http://localhost:3001/api/thoughts/{thought Id}` Delete a thought  
+  
+`POST http://localhost:3001/api/thoughts/{thought Id}/reactions` Create a reaction(JSON body required)  
+`DELETE http://localhost:3001/api/thoughts/{thought Id}/reactions` Delete a reaction  
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

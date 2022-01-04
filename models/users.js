@@ -35,7 +35,7 @@ const userSchema = new Schema(
     ],
   },
   {
-    //confimr our virtuals are JSON encoded
+    //confirm virtuals are JSON encoded
     toJSON: {
       virtuals: true,
     },
