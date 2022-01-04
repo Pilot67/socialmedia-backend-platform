@@ -9,7 +9,7 @@ module.exports = {
 
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .populate('friends')
+      .populate("friends")
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No user with that ID" })
@@ -26,15 +26,14 @@ module.exports = {
   //Update User by ID
   updateSingleUser(req, res) {
     User.findOneAndUpdate(
-      {
-        _id: req.params.userId,
-      },
+      { _id: req.params.userId },
       {
         $set: {
           username: req.body.username,
           email: req.body.email,
         },
-      }
+      },
+      { new: true }
     )
       .then((response) =>
         !response
@@ -46,9 +45,7 @@ module.exports = {
 
   // Delete user by ID
   deleteSingleUser(req, res) {
-    User.findOneAndDelete({
-      _id: req.params.userId,
-    })
+    User.findOneAndDelete({ _id: req.params.userId })
       .then((result) =>
         !result
           ? res.status(404).json({ message: "No user with that ID" })
@@ -56,19 +53,14 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  
+
   // Friend routes
   // Add friend
   addFriend(req, res) {
     User.findOneAndUpdate(
-      {
-        _id: req.params.userId,
-      },
-      {
-        $push: {
-          friends: req.params.friendID,
-        },
-      },
+      { _id: req.params.userId },
+      { $push: { friends: req.params.friendID } },
+      { new: true }
     )
       .then((result) =>
         !result
@@ -80,21 +72,15 @@ module.exports = {
   //Un-friend!
   deleteFriend(req, res) {
     User.findOneAndUpdate(
-        {
-          _id: req.params.userId,
-        },
-        {
-          $pull: {
-            friends: req.params.friendID,
-          },
-        }
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendID } },
+      { new: true }
+    )
+      .then((result) =>
+        !result
+          ? res.status(404).json({ message: "No user with that ID" })
+          : res.json(result)
       )
-        .then((result) =>
-          !result
-            ? res.status(404).json({ message: "No user with that ID" })
-            : res.json(result)
-        )
-        .catch((err) => res.status(500).json(err));
-  
+      .catch((err) => res.status(500).json(err));
   },
 };

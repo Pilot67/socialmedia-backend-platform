@@ -11,9 +11,8 @@ module.exports = {
   //get a single thought by Id
   getSingleThought(req, res) {
     Thoughts.findOne({ _id: req.params.thoughtId })
-      //  .populate('userId')
       .then((result) =>
-        !user
+        !result
           ? res.status(404).json({ message: "No user with that ID" })
           : res.json(result)
       )
@@ -26,7 +25,8 @@ module.exports = {
       .then((result) => {
         User.findOneAndUpdate(
           { _id: result.userId },
-          { $push: { thoughts: result._id } }
+          { $push: { thoughts: result._id } },
+          { new: true }
         )
           .then((result) =>
             !result
@@ -46,7 +46,8 @@ module.exports = {
           thoughtText: req.body.thoughtText,
           createdAt: Date.now(),
         },
-      }
+      },
+      { new: true }
     )
       .then((response) =>
         !response
@@ -64,7 +65,8 @@ module.exports = {
       .then((result) => {
         User.findOneAndUpdate(
           { _id: result.userId },
-          { $pull: { thoughts: result._id } }
+          { $pull: { thoughts: result._id } },
+          { new: true }
         )
           .then((result) =>
             !result
@@ -79,7 +81,8 @@ module.exports = {
   createReaction(req, res) {
     Thoughts.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $push: { reactions: req.body } }
+      { $push: { reactions: req.body } },
+      { new: true }
     )
       .then((result) =>
         !result
